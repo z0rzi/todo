@@ -1,0 +1,7 @@
+version: "3.3"
+
+services:
+  # Some service built on the spot
+  bots:
+    build: .
+    restart: always

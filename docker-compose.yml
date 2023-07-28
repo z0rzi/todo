@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+  web-front:
+    build:
+      context: ./web-front
+    ports:
+      - 8080:8080
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.diagadis.loadbalancer.server.port=8080"
+    working_dir: /app
+    restart: always
+    networks: [main]
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./back
+    environment:
+      - PORT=8500
+      - API_KEY=${API_KEY}
+      - LOG_FORMAT=dev
+      - LOG_DIR=../logs
+      - ORIGIN=*
+      - CREDENTIALS=true
+    volumes:
+      - ./back/todo.db:/app/todo.db:rw
+    working_dir: /app
+    restart: always
+    networks: [main]
+
+networks:
+  main:
+    external: false
+
