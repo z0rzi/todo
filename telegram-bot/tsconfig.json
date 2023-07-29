@@ -4,9 +4,15 @@
     "target": "ESNext",
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "lib": [ "DOM", "ES5" ],
-    "types": [ "node" ],
+    "lib": [
+      "DOM",
+      "ES5"
+    ],
+    "types": [
+      "node"
+    ],
     "outDir": "./dist",
+    "strictFunctionTypes": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -17,8 +23,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "typeRoots": [
-      "node_modules/@types",
-      "node-src/*.d.ts"
+      "node_modules/@types"
     ]
   },
   "include": [

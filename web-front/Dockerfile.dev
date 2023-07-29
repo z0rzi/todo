@@ -1,0 +1,10 @@
+# Name the node stage "builder"
+FROM node:18.0.0-alpine
+# Set working directory
+WORKDIR /app
+# Copy deps list
+COPY . .
+# install node modules
+RUN yarn
+
+CMD ["yarn", "start"]

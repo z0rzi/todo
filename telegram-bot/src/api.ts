@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import Cookies from 'js-cookie';
 import List from './List';
 
 type ApiResponse<T = unknown> = {
@@ -39,7 +38,7 @@ const env = process.env['NODE_ENV'] || 'dev';
 
 export default class Api {
     private apiToken = '';
-    apiUrl = env === 'prod' ? '/api' : 'http://127.0.0.1:8500';
+    apiUrl = env === 'prod' ? 'http://backend:8500/api' : 'http://127.0.0.1:8500';
     client: AxiosInstance;
 
     get authHeader() {
@@ -54,7 +53,7 @@ export default class Api {
     }
 
     private constructor() {
-        this.apiToken = Cookies.get('ACCESS_TOKEN') || this.apiToken;
+        this.apiToken = this.apiToken;
 
         let headers = {
             Accept: 'application/json'
@@ -84,11 +83,11 @@ export default class Api {
             });
     }
 
-    async addTask(title: string, date: Date): Promise<Task> {
+    async addTask(title: string, date: Date, goalId?: number): Promise<Task> {
         return this.client
             .post<ApiResponse<Task>>(
                 '/tasks',
-                { title, date: date.toISOString() },
+                { title, date: date.toISOString(), goalId: goalId ?? null },
                 { headers: this.authHeader }
             )
             .then((res) => {

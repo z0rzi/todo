@@ -6,6 +6,8 @@ services:
       context: ./web-front
     ports:
       - 8080:8080
+    environment:
+      - NODE_ENV=prod
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.diagadis.loadbalancer.server.port=8080"
@@ -19,6 +21,7 @@ services:
     build:
       context: ./back
     environment:
+      - NODE_ENV=prod
       - PORT=8500
       - API_KEY=${API_KEY}
       - LOG_FORMAT=dev
@@ -27,6 +30,16 @@ services:
       - CREDENTIALS=true
     volumes:
       - ./back/todo.db:/app/todo.db:rw
+    working_dir: /app
+    restart: always
+    networks: [main]
+
+  telegram-bot:
+    build:
+      context: ./telegram-bot/
+    environment:
+      - NODE_ENV=prod
+      - API_KEY=${API_KEY}
     working_dir: /app
     restart: always
     networks: [main]

@@ -1,0 +1,48 @@
+version: "3.3"
+
+services:
+  web-front:
+    build:
+      context: ./web-front
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8080:8080
+    environment:
+      - NODE_ENV=dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.diagadis.loadbalancer.server.port=8080"
+    working_dir: /app
+    restart: always
+    network_mode: host
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./back
+    ports:
+      - 8500:8500
+    environment:
+      - PORT=8500
+      - NODE_ENV=dev
+      - API_KEY=${API_KEY}
+      - LOG_FORMAT=dev
+      - LOG_DIR=../logs
+      - ORIGIN=*
+      - CREDENTIALS=true
+    volumes:
+      - ./back/todo.db:/app/todo.db:rw
+    working_dir: /app
+    restart: always
+    network_mode: host
+
+  telegram-bot:
+    build:
+      context: ./telegram-bot/
+    environment:
+      - NODE_ENV=dev
+      - API_KEY=${API_KEY}
+    working_dir: /app
+    restart: always
+    network_mode: host
