@@ -15,9 +15,6 @@ RUN yarn
 COPY ./nodemon.json ./swagger.yaml ./tsconfig.json ./.swcrc /app/
 COPY ./src /app/src
 
-# Set Env
-ENV NODE_ENV production
-
 RUN yarn build
 
 # Cmd script

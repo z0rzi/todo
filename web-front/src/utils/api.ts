@@ -35,14 +35,15 @@ export type Task = {
     dateCreated: Date;
 };
 
-const env = process.env['NODE_ENV'] || 'dev';
+declare const ENV: string;
 
 export default class Api {
     private apiToken = '';
-    apiUrl = env === 'prod' ? '/api' : 'http://127.0.0.1:8500';
+    apiUrl = ENV === 'prod' ? '/api' : 'http://127.0.0.1:8500';
     client: AxiosInstance;
 
     get authHeader() {
+        console.log(ENV);
         return { Authorization: this.apiToken };
     }
 

@@ -16,6 +16,8 @@ COPY ./config-overrides.js ./tsconfig.json /app/
 COPY ./public /app/public
 COPY ./src /app/src
 # install node modules and build assets
+ENV REACT_APP_ENV prod
+ENV NODE_ENV prod
 RUN yarn build
 
 # nginx state for serving content

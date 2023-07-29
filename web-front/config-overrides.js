@@ -1,16 +1,11 @@
-const path = require('path');
-
+const { DefinePlugin } = require('webpack');
 const tsConfig = require('./tsconfig.json');
 
 const paths = tsConfig.compilerOptions.paths;
-const _paths = {
-    "@/*": [ "*" ],
-    "@utils/*": [ "utils/*" ]
-};
 
 const webpackPaths = {};
 
-for (let [from, [to]] of Object.entries(_paths)) {
+for (let [from, [to]] of Object.entries(paths)) {
     if (from.endsWith('*')) from = from.slice(0, -1);
     if (to.endsWith('*')) to = to.slice(0, -1);
     if (from.endsWith('/')) from = from.slice(0, -1);
@@ -22,6 +17,10 @@ for (let [from, [to]] of Object.entries(_paths)) {
     webpackPaths[from] = to;
 }
 
+const node_env = process.env['REACT_APP_ENV'] || process.env['NODE_ENV'];
+
+console.log('REACT_APP_ENV = %s', process.env['REACT_APP_ENV']);
+
 module.exports = function override(config, env) {
     config.module.rules = [
         ...config.module.rules,
@@ -29,8 +28,15 @@ module.exports = function override(config, env) {
             resolve: {
                 alias: webpackPaths,
             }
-        }
+        },
     ];
+
+    config.plugins = [
+        ...config.plugins,
+        new DefinePlugin({
+            'ENV': `"${node_env}"`,
+        }),
+    ]
 
     return config;
 };
