@@ -51,6 +51,8 @@ export default class TodoBot {
                 "Here's what you have to do today:" +
                     tasks.map((goal) => '- ' + goal.title).join('\n')
             );
+        }).catch(err => {
+            this.ctx.reply('Internal error - ' + err.message);
         });
     }
 
@@ -74,11 +76,13 @@ export default class TodoBot {
             );
 
             return this.addTaskFromGoal(dateStart);
+        }).catch(err => {
+            this.ctx.reply('Internal error - ' + err.message);
         });
     }
 
-    addTaskFromGoal(date: Date) {
-        api.getAllGoals().then(async (goals) => {
+    async addTaskFromGoal(date: Date) {
+        return api.getAllGoals().then(async (goals) => {
             this.ctx.reply(
                 'What would you like to work on?',
                 Markup.keyboard(goals.map((goal) => goal.title))
@@ -94,6 +98,8 @@ export default class TodoBot {
                 .then(() => {
                     this.ctx.reply('Task added :)');
                 });
+        }).catch(err => {
+            this.ctx.reply('Internal error - ' + err.message);
         });
     }
 
@@ -104,13 +110,17 @@ export default class TodoBot {
         }
         api.addGoal(goalTitle).then(() => {
             this.ctx.reply('Goal added!');
+        }).catch(err => {
+            this.ctx.reply('Internal error - ' + err.message);
         });
     }
 
     async listGoals() {
-        api.getAllGoals().then((goals) => {
+        return api.getAllGoals().then((goals) => {
             goals.sort((a, b) => b.importance - a.importance);
             this.ctx.reply(goals.map((goal) => goal.title).join('\n'));
+        }).catch(err => {
+            this.ctx.reply('Internal error - ' + err.message);
         });
     }
 
@@ -138,6 +148,8 @@ export default class TodoBot {
             }
 
             this.ctx.reply(tasks.map((goal) => goal.title).join('\n'));
+        }).catch(err => {
+            this.ctx.reply('Internal error - ' + err.message);
         });
     }
 

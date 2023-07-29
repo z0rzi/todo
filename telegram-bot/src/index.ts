@@ -31,7 +31,7 @@ bot.telegram.setMyCommands([
 
 bot.use(Telegraf.log());
 
-bot.command('add_goal', async (ctx) => {
+bot.command('add_goal', (ctx) => {
     const todobot = getBot(ctx);
 
     const goalTitle = ctx.message.text.split(/\s+/g).slice(1).join(' ');
@@ -39,27 +39,27 @@ bot.command('add_goal', async (ctx) => {
     todobot.addNewGoal(goalTitle);
 });
 
-bot.command('list_goals', async (ctx) => {
+bot.command('list_goals', (ctx) => {
     const todobot = getBot(ctx);
     todobot.listGoals();
 });
 
-bot.command('today', async (ctx) => {
+bot.command('today', (ctx) => {
     const todobot = getBot(ctx);
     todobot.listTasks('today');
 });
 
-bot.command('tomorrow', async (ctx) => {
+bot.command('tomorrow', (ctx) => {
     const todobot = getBot(ctx);
     todobot.listTasks('tomorrow');
 });
 
-bot.command('week', async (ctx) => {
+bot.command('week', (ctx) => {
     const todobot = getBot(ctx);
     todobot.listTasks('week');
 });
 
-bot.command('add_tomorrow', async (ctx) => {
+bot.command('add_tomorrow', (ctx) => {
     const todobot = getBot(ctx);
     const d = new Date();
     d.setUTCHours(0, 0, 0)
@@ -67,7 +67,7 @@ bot.command('add_tomorrow', async (ctx) => {
     todobot.addTaskFromGoal(d);
 });
 
-bot.on('text', async (ctx) => {
+bot.on('text', (ctx) => {
     const todobot = getBot(ctx);
     todobot.text(ctx.message.text);
 });

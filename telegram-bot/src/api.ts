@@ -38,7 +38,7 @@ const env = process.env['NODE_ENV'] || 'dev';
 
 export default class Api {
     private apiToken = '';
-    apiUrl = env === 'prod' ? 'http://backend:8500/api' : 'http://127.0.0.1:8500';
+    apiUrl = env === 'prod' ? 'http://backend:8500' : 'http://127.0.0.1:8500';
     client: AxiosInstance;
 
     get authHeader() {
