@@ -23,7 +23,7 @@ export default class TodoBot {
             this.ctx.reply('Hey, did you plan your tasks for next week?');
         });
 
-        repeat(new Date('2020-01-01T06:00:00Z'), 24 * 7, () => {
+        repeat(new Date('2020-01-01T06:00:00Z'), 24, () => {
             this.showDayTask();
         });
 
