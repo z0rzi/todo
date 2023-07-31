@@ -58,7 +58,7 @@ export class TaskController {
     try {
       const taskId = Number(req.params.id);
       const taskData: Task = req.body;
-      if ('date' in taskData) taskData.date = new Date(taskData.date);
+      if ('date' in taskData && taskData.date != null) taskData.date = new Date(taskData.date);
       const newTask = this.task.updateTask(taskId, taskData);
 
       res.status(200).json({ data: newTask, message: 'updated' });
